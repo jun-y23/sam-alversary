@@ -1,0 +1,40 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'alversary-db
+
+  Sample SAM Template for alversary-db
+
+  '
+Globals:
+  Function:
+    Timeout: 3
+Resources:
+  AlversaryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: AlversaryFunction
+      Handler: albums.handler
+      Runtime: nodejs12.x
+      Events:
+        Alversary:
+          Type: Api
+          Properties:
+            Path: /albums
+            Method: get
+Outputs:
+  AlversaryApi:
+    Description: API Gateway endpoint URL for Prod stage for Alversary function
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/v1/alversary/albums
+  AlversaryFunction:
+    Description: Alversary Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - AlversaryFunction
+      - Arn
+  AlversaryFunctionIamRole:
+    Description: Implicit IAM Role created for Alversary function
+    Value:
+      Fn::GetAtt:
+      - AlversaryFunctionRole
+      - Arn

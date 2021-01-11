@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  alversary-db
+
+  Sample SAM Template for alversary-db
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  AlversaryFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: script/
+      Handler: albums.handler
+      Runtime: nodejs12.x
+      Events:
+        Alversary:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /albums
+            Method: get
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  AlversaryApi:
+    Description: "API Gateway endpoint URL for Prod stage for Alversary function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/v1/alversary/albums"
+  AlversaryFunction:
+    Description: "Alversary Lambda Function ARN"
+    Value: !GetAtt AlversaryFunction.Arn
+  AlversaryFunctionIamRole:
+    Description: "Implicit IAM Role created for Alversary function"
+    Value: !GetAtt AlversaryFunctionRole.Arn

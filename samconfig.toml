@@ -1,0 +1,10 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "alversary"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-ogaj2u5e9vtw"
+s3_prefix = "alversary"
+region = "ap-northeast-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
